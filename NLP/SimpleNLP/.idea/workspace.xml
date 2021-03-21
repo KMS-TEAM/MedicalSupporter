@@ -3,14 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="7062134b-b7c0-4c46-931b-b6cc0404d2ca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/input/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/input/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simpleNLP.py" beforeDir="false" afterPath="$PROJECT_DIR$/simpleNLP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/neo4japi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/simpleNLP.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -71,6 +79,9 @@
       <workItem from="1614443878481" duration="11813000" />
       <workItem from="1614508355254" duration="4239000" />
       <workItem from="1614528373914" duration="9758000" />
+      <workItem from="1616260017803" duration="116000" />
+      <workItem from="1616260156891" duration="594000" />
+      <workItem from="1616298043201" duration="312000" />
     </task>
     <servers />
   </component>
