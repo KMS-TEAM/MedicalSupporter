@@ -10,7 +10,11 @@ class neo4jGraph:
             # Write transactions allow the driver to handle retries and transient errors
             result = session.write_transaction(
                 self.m_clear)
-
+    def MATCH(self, word):
+        with self.driver.session() as session:
+            result = session.write_transaction(
+                self.m_match, word
+            )
     @staticmethod
     def m_clear(tx):
         cmd = (
@@ -44,3 +48,17 @@ class neo4jGraph:
             )
             #print(cmd)
             tx.run(cmd, sz=len(texts) - 2, tx=texts[i], tx2=texts[i+1])
+    @staticmethod
+    def m_match(tx, word):
+
+        cmd = (
+        "MATCH (w:Word {name: $word}) "
+        "return w "
+        )
+        tx.run(cmd, word = word)
+    @staticmethod
+    def m_update(tx, ):
+
+        cmd = (
+
+        )

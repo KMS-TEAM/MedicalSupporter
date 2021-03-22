@@ -2,5 +2,6 @@ from testgraph import neo4jGraph
 
 if __name__ == "__main__":
     connect = neo4jGraph("neo4j", "1")
-    connect.CLEAR()
-    connect.CREATE("His dog eats turkey on tuesday My cat eats fish on Saturday")
+    #connect.CLEAR()
+    #connect.CREATE("His dog eats turkey on tuesday My cat eats fish on Saturday")
+    connect.MATCH("on")
