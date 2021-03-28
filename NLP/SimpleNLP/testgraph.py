@@ -1,27 +1,10 @@
 from neo4j import GraphDatabase
-
 class neo4jGraph:
+
 
     def __init__(self, username, pwd):
         self.driver = GraphDatabase.driver(uri="neo4j:neo4j://localhost:7687", auth=(username, pwd))
 
-    def CLEAR(self):
-        with self.driver.session() as session:
-            # Write transactions allow the driver to handle retries and transient errors
-            result = session.write_transaction(
-                self.m_clear)
-    def MATCH(self, word):
-        with self.driver.session() as session:
-            result = session.write_transaction(
-                self.m_match, word
-            )
-    @staticmethod
-    def m_clear(tx):
-        cmd = (
-              "match (n)"
-              "detach delete n"
-        )
-        tx.run(cmd)
     def close(self):
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
@@ -48,17 +31,46 @@ class neo4jGraph:
             )
             #print(cmd)
             tx.run(cmd, sz=len(texts) - 2, tx=texts[i], tx2=texts[i+1])
+    def MATCH(self, key):
+        with self.driver.session() as session:
+            result = session.write_transaction(
+                self.m_match, key
+           )
+            return result
     @staticmethod
-    def m_match(tx, word):
-
-        cmd = (
-        "MATCH (w:Word {name: $word}) "
-        "return w "
-        )
-        tx.run(cmd, word = word)
+    def m_match(tx, key):
+        for property in key:
+               cmd = (
+               "MATCH (w:Word) "
+               "where w.name = $key "
+               "return *;"
+               )
+               temp = tx.run(cmd, key = key[property])
+               record= temp.single()
+               value = record.value()
+               return  value
+    def UPDATE(self, new_properties):
+        with self.driver.session() as session:
+            result = session.write_transaction(
+                self.m_update, new_properties
+            )
     @staticmethod
-    def m_update(tx, ):
-
+    def m_update(tx, new_properties):
         cmd = (
+            "match (w:Word {name: $name})"
+            "set w = $new_prop")
+        temp = tx.run(cmd, new_prop = new_properties, name = new_properties['name'])
+    def CLEAR(self):
+        with self.driver.session() as session:
+            # Write transactions allow the driver to handle retries and transient errors
+            result = session.write_transaction(
+                self.m_clear)
 
-        )
+    @staticmethod
+    def m_clear(tx):
+        cmd = (
+            "match (n)"
+            "detach delete n"
+          )
+        tx.run(cmd)
+
