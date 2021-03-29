@@ -57,20 +57,47 @@ class neo4jGraph:
     @staticmethod
     def m_update(tx, new_properties):
         cmd = (
-            "match (w:Word {name: $name})"
+            "match (w:Word {name: $name}) "
             "set w = $new_prop")
         temp = tx.run(cmd, new_prop = new_properties, name = new_properties['name'])
-    def CLEAR(self):
+    def DELETE(self, delete):
         with self.driver.session() as session:
-            # Write transactions allow the driver to handle retries and transient errors
             result = session.write_transaction(
-                self.m_clear)
-
+                self.m_delete,delete)
     @staticmethod
-    def m_clear(tx):
-        cmd = (
-            "match (n)"
-            "detach delete n"
-          )
-        tx.run(cmd)
+    def m_delete(tx, delete):
+         if (delete['cmd'] == 'delete_nodes'):
+            for node in delete['node']:
+             cmd = (
+                "match (w:Word {name: $name})"
+                "detach delete w"
+             )
+             tx.run(cmd, name=node)
+         elif (delete['cmd'] =='delete_all'):
+             cmd = (
+                "match (n)"
+                "detach delete n"
+              )
+             tx.run(cmd)
+         elif (delete['cmd'] == 'greater'):
+             cmd = (
+                 "match (w:Word) "
+                 "where w.count > $count "
+                 "detach delete w"
+             )
+             tx.run(cmd,count=delete['count'])
+         elif (delete['cmd'] == "equal"):
+             cmd = (
+                 "match (w:Word) "
+                 "where w.count = $count "
+                 "detach delete w"
+             )
+             tx.run(cmd,count=delete['count'])
+         elif (delete['cmd'] == "lesser"):
+             cmd = (
+                 "match (w:Word) "
+                 "where w.count < $count "
+                 "detach delete w"
+             )
+             tx.run(cmd,count=delete['count'])
 
