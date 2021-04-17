@@ -1,7 +1,7 @@
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from spacy.matcher import Matcher
-from common import Words, Chunk
+from common import Words, Chunk, Transcription
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -35,6 +35,11 @@ class SimpleNLP():
             self.sents.append(sent)
         #    print(sent)
         return self.sents
+
+    def import_data(self, data):
+
+    def processing(self, data):
+        self.import_data(data)
 
     def word(self, stop_word = False):
         self.words = []

@@ -1,8 +1,8 @@
 import pandas as pd
-from testgraph import neo4jGraph
+from neo4japi import Neo
 import simpleNLP as x
 def Connect():
-    connect = neo4jGraph("neo4j", "1")
+    connect = Neo("neo4j", "1")
     connect.CLEAR()
     connect.CREATE("His dog eats turkey on tuesday My cat eats fish on Saturday")
     result = connect.MATCH()

@@ -1,6 +1,7 @@
 import pandas as pd
 from numpy import math
 from common import Transcription
+from simpleNLP import SimpleNLP as nlp
 
 def read_fake_data(url):
     df = pd.read_csv(url)
@@ -11,7 +12,8 @@ def read_fake_data(url):
     trans_data = []
     trans_id = 0
     # print(df['transcription'][12])
-    for i in range(0, len(df)):
+    #for i in range(0, len(df)):
+    for i in range(0, 50):
         check = df['transcription'][i]
         index = 0
         transcription = {}
@@ -59,8 +61,9 @@ def read_fake_data(url):
 if __name__ == "__main__":
     print("Hello world")
     data = read_fake_data("../data/input/mtsamples.csv")
-    print(len(data))
-    print(type(data))
+    for item in data:
+        item = nlp.processing(item)
+
 
 
 
