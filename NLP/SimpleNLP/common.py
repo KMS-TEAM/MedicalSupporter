@@ -14,3 +14,12 @@ class Entities:
     def __init__(self):
         self.text = ''
         self.label = ''
+
+class Transcription:
+    def __init__(self, id, des, medical_specialty, sample_name, trans, keywords):
+        self.id = id
+        self.transcription = trans
+        self.description = des
+        self.medicalspecialty = medical_specialty
+        self.sample_name = sample_name
+        self.keywords = keywords
