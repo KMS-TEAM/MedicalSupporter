@@ -78,6 +78,8 @@ if __name__ == "__main__":
     data = read_fake_data("data/input/mtsamples.csv")
     print(len(data))
 
+    # test slack notification
+
 
 
 
