@@ -2,16 +2,17 @@ import pandas as pd
 from numpy import math
 from common import Transcription
 from simpleNLP import SimpleNLP as nlp
+from src import neo4japi as xxx
+
 
 def read_fake_data(url):
     df = pd.read_csv(url)
-    # print(df.head(10))
     df.dropna()
     df.shape
     df.reset_index(drop=True)
     trans_data = []
     trans_id = 0
-    # print(df['transcription'][12])
+    limit = len(df)
     #for i in range(0, len(df)):
     for i in range(0, 50):
         check = df['transcription'][i]
@@ -39,6 +40,7 @@ def read_fake_data(url):
                 index = index + 1
             for i in range(0, len(pre_i)):
                 _data = ''
+                #print(_data)
                 if (i < len(pre_i) - 1):
                     for j in range(pre_i[i] + 2, pre_p[i + 1]):
                         _data = _data + check[j]
@@ -57,12 +59,21 @@ def read_fake_data(url):
                                                 transcription, df['keywords'][i]))
                 trans_id = trans_id + 1
 
-    return trans_data
+    return trans_data, len(trans_data)
+
+
 if __name__ == "__main__":
-    print("Hello world")
-    data = read_fake_data("../data/input/mtsamples.csv")
-    for item in data:
-        item = nlp.processing(item)
+    connect = xxx.Neo("neo4j","1")
+    data, leng = read_fake_data("../data/input/mtsamples.csv")
+    medical=[]
+    for i in range(0, leng):
+        medical.append(data[i].medicalspecialty)
+    #print(type(medical))
+    medical = set(medical)
+    medical = str(medical)
+    print(medical)
+    up_data = connect.CREATE(medical)
+
 
 
 
