@@ -2,11 +2,59 @@ from neo4j import GraphDatabase
 
 class Neo:
     def __init__(self, username, pwd):
-        self.driver = GraphDatabase.driver(uri="neo4j:neo4j://localhost:7687", auth=(username, pwd))
+        self.driver = GraphDatabase.driver(uri="neo4j://localhost:7687", auth=(username, pwd))
 
     def close(self):
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
+
+    def create_single_node(self, node_name, label):
+        with self.driver.session() as session:
+            # Write transactions allow the driver to handle retries and transient errors
+            result = session.write_transaction(
+                self._CREATE, node_name, label)
+    @staticmethod
+    def _CREATE(tx, node_name, label):
+        neo = Neo("neo4j","1")
+        #print(node_name + " " + label)
+        if (label=="medical_specality"):
+            if (not neo.MATCH(list(node_name))):
+                print("Node exist")
+                return
+            else :
+                #print("Creating")
+                cmd = (
+                "CREATE (w:Medical_specality {name: $node_name}) "
+                )
+                temp = tx.run(cmd, label=label, node_name=node_name)
+        elif (label == "symptom"):
+            if (not neo.MATCH(list(node_name))):
+                print("Node exist")
+                return
+            else:
+                #print("Creating")
+                cmd = (
+                "CREATE (n:Symptom {name: $node_name}) "
+                )
+            temp = tx.run(cmd, label=label, node_name=node_name)
+
+    def create_relation(self, node_1, node_2):
+        with self.driver.session() as session:
+            # Write transactions allow the driver to handle retries and transient errors
+            result = session.write_transaction(
+                self._create_relation, node_1,node_2)
+    @staticmethod
+    def _create_relation(tx, node_1, node_2):
+
+        cmd = (
+            "MATCH "
+            "(n:Medical_specality), "
+            "(w:Symptom) "
+            "where n.name = $node_1 AND w.name = $node_2 "
+            "create p = (n)-[r:SYSPTOM]->(w) "
+            "return p")
+        temp = tx.run(cmd,  node_1=node_1, node_2=node_2)
+
 
     def CREATE(self, sentence):
         with self.driver.session() as session:
@@ -30,6 +78,9 @@ class Neo:
             )
             #print(cmd)
             tx.run(cmd, sz=len(texts) - 2, tx=texts[i], tx2=texts[i+1])
+    #@staticmethod
+    #def m_creat_node(tx, sentence):
+
     def MATCH(self, key):
         with self.driver.session() as session:
             result = session.write_transaction(
@@ -38,16 +89,13 @@ class Neo:
             return result
     @staticmethod
     def m_match(tx, key):
-        for property in key:
-               cmd = (
+        cmd = (
                "MATCH (w:Word) "
                "where w.name = $key "
                "return *;"
-               )
-               temp = tx.run(cmd, key = key[property])
-               record= temp.single()
-               value = record.value()
-               return  value
+        )
+        temp = tx.run(cmd, key = key)
+        return temp
     def UPDATE(self, new_properties):
         with self.driver.session() as session:
             result = session.write_transaction(

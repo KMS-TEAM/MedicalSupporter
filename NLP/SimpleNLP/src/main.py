@@ -4,7 +4,7 @@ import simpleNLP as x
 def Connect():
     connect = Neo("neo4j", "1")
     connect.CLEAR()
-    connect.CREATE("His dog eats turkey on tuesday My cat eats fish on Saturday")
+    #connect.CREATE("His dog eats turkey on tuesday My cat eats fish on Saturday")
     result = connect.MATCH()
     connect.UPDATE()
     connect.DELETE()
