@@ -51,7 +51,7 @@ class Neo:
             "(n:Medical_specality), "
             "(w:Symptom) "
             "where n.name = $node_1 AND w.name = $node_2 "
-            "create p = (n)-[r:SYSPTOM]->(w) "
+            "create p = (w)-[r:SYMPTOM]->(n) "
             "return p")
         temp = tx.run(cmd,  node_1=node_1, node_2=node_2)
 
