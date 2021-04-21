@@ -78,8 +78,6 @@ class Neo:
             )
             #print(cmd)
             tx.run(cmd, sz=len(texts) - 2, tx=texts[i], tx2=texts[i+1])
-    #@staticmethod
-    #def m_creat_node(tx, sentence):
 
     def MATCH(self, key):
         with self.driver.session() as session:
@@ -147,4 +145,25 @@ class Neo:
                  "detach delete w"
              )
              tx.run(cmd,count=delete['count'])
+    def match_check(self, key):
+        with self.driver.session() as session:
+            result = session.read_transaction(
+                self.result,key)
+        return result
+
+    @staticmethod
+    def result(tx, key):
+        cmd = (
+            "match (w:Symptom {name: $key})-[:SYMPTOM]->(n) return n.name "
+        )
+        temp = tx.run(cmd, key=key)
+        entire_result = []  # Will contain all the items
+        for record in temp:
+            entire_result.append(record.value())
+        if(len(entire_result) == 0 ):
+            return False
+        else:
+            return entire_result
+
+
 

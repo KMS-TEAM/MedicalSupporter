@@ -23,3 +23,10 @@ class Transcription:
         self.medicalspecialty = medical_specialty
         self.sample_name = sample_name
         self.keywords = keywords
+
+class input:
+    def __init__(self, keys, entitis):
+        self.medical_specality = []
+        self.describe = {}
+        for i in range(0, len(keys)):
+            self.describe[keys[i]] = list(entitis[i])

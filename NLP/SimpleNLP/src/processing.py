@@ -7,8 +7,8 @@ from src import neo4japi as xxx
 class processing:
     def __init__(self, url):
         self.data, self.data_len = self.read_fake_data(url)
-        self.import_to_neo4j()
-        return self.data
+        #self.import_to_neo4j()
+        #return self.data
 
     def read_fake_data(self, url):
         df = pd.read_csv(url)
@@ -80,7 +80,7 @@ class processing:
             _key_list = []
             for i in range(0, len(self.data)):
                 if (item == self.data[i].medicalspecialty):
-                    fake_key = str(self.data[i].keywords).split(',')
+                    fake_key = str(self.data[i].keywords).split(', ')
                     for j in range(0, len(fake_key)):
                         if ((len(fake_key[j]) < 30) or (len(fake_key[j]) < 2)):
                             _key_list.append(fake_key[j])

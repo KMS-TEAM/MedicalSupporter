@@ -116,9 +116,9 @@ class SimpleNLP():
 
         return [ent1.strip(), ent2.strip()]
 
-    def get_entitiy_pairs(self):
+    def get_entitiy_pairs(self, sents):
         self.entity_pairs = []
-        for sent in self.sents:
+        for sent in sents:
             self.entity_pairs.append(self.get_entities((sent)))
         return self.entity_pairs
 
