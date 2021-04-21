@@ -1,6 +1,9 @@
 import pandas as pd
+import os
 from neo4japi import Neo
-import simpleNLP as x
+from simpleNLP import SimpleNLP as xxx
+from processing import processing as prc
+
 def Connect():
     connect = Neo("neo4j", "1")
     connect.CLEAR()
@@ -10,8 +13,7 @@ def Connect():
     connect.DELETE()
 
 if __name__ == "__main__":
-    #with open('mtsamples.csv', 'r') as f:
-    #    col_list = ["sample_name", "transcription"]
-    #    my_file=pd.read_csv(f, usecols=col_list)
-    #    test = x.SimpleNLP.word(my_file["transcription"][1])
-    text = x.SimpleNLP.read_csv('self','/home/nguyen/Github/MedicalSupporter/NLP/SimpleNLP/mtsamples.csv')
+    df = prc('../data/input/mtsamples.csv')
+    for index in range(0, len(df)):
+        data = df["transcription"][index]
+        print(type(data))
